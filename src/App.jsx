@@ -15,14 +15,15 @@ function App() {
   const trainRef = useRef(null)
   const titleRef = useRef(null)
   const logoRef = useRef(null)
-  const titleWrapRef = useRef(null)
-  const logoWrapRef = useRef(null)
+  const brandRef = useRef(null)
   const sectionWrapperRef = useRef(null)
   const textLeftRef = useRef(null)
   const textRightRef = useRef(null)
   const navRef = useRef(null)
   const cloudsTrackRef = useRef(null)
   const cloudsLayerRef = useRef(null)
+  const navBrandRef = useRef(null)
+  const navLogoRef = useRef(null)
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -38,12 +39,6 @@ function App() {
 
       if (landscapeRef.current)
         landscapeRef.current.style.transform = `translateX(${-scroll * 0.5}px) translateY(${translateY}px)`
-
-      if (titleWrapRef.current)
-        titleWrapRef.current.style.transform = `translate(-50%, calc(-50% + ${translateY}px))`
-
-      if (logoWrapRef.current)
-        logoWrapRef.current.style.transform = `translate(-50%, calc(-50% + ${translateY}px))`
 
       if (cloudsLayerRef.current)
         cloudsLayerRef.current.style.transform = `translateY(${translateY}px)`
@@ -64,32 +59,41 @@ function App() {
     gsap.ticker.add(lenisRaf)
     gsap.ticker.lagSmoothing(0)
 
-    const fogInOut = (el) => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: '.scroll-spacer',
-          start: '35% top',
-          end: '95% top',
-          scrub: 0.5,
-        },
-      })
+    gsap.set([logoRef.current, titleRef.current], { opacity: 0 })
+    gsap.set(navLogoRef.current, { opacity: 0 })
 
-      tl.fromTo(
-        el,
-        { opacity: 0, filter: 'blur(20px)', x: -40, y: -25 },
-        { opacity: 1, filter: 'blur(0px)', x: 0, y: 0, duration: 0.5, ease: 'power1.inOut' }
-      )
+    const brandTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.scroll-spacer',
+        start: '25% top',
+        end: '70% top',
+        scrub: 0.5,
+      },
+    })
 
-      tl.to(
-        el,
-        { opacity: 0, filter: 'blur(24px)', duration: 0.8, ease: 'power2.in' }
-      )
+    brandTl.to(
+      [logoRef.current, titleRef.current],
+      { opacity: 1, duration: 0.25, ease: 'power1.inOut' },
+      0
+    )
 
-      return tl
-    }
+    brandTl.to(
+      logoRef.current,
+      { y: -80, opacity: 0, filter: 'blur(12px)', height: 0, duration: 0.5, ease: 'power2.inOut' },
+      0.3
+    )
 
-    fogInOut(titleRef.current)
-    fogInOut(logoRef.current)
+    brandTl.to(
+      brandRef.current,
+      { top: '1.5rem', y: 0, gap: 0, duration: 0.6, ease: 'power2.inOut' },
+      0.3
+    )
+
+    brandTl.to(
+      titleRef.current,
+      { fontSize: '1rem', letterSpacing: '0.12em', duration: 0.6, ease: 'power2.inOut' },
+      0.3
+    )
 
     const transitionTrigger = {
       trigger: sectionWrapperRef.current,
@@ -138,6 +142,17 @@ function App() {
       },
     })
 
+    gsap.to(titleRef.current, {
+      color: '#000',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: sectionWrapperRef.current,
+        start: 'top top',
+        end: 'top top',
+        toggleActions: 'play none none reverse',
+      },
+    })
+
     return () => {
       gsap.ticker.remove(lenisRaf)
       lenis.destroy()
@@ -151,6 +166,9 @@ function App() {
         <div className="nav-group">
           <a href="#">Главная</a>
           <a href="#">О нас</a>
+        </div>
+        <div ref={navBrandRef} className="nav-brand">
+          <img ref={navLogoRef} className="nav-brand-logo" src={logoImg} alt="logo" />
         </div>
         <div className="nav-group">
           <a href="#">Маршруты</a>
@@ -176,12 +194,10 @@ function App() {
           </div>
         </div>
         <img ref={trainRef} className="train" src={trainImg} alt="train" />
-        <div ref={logoWrapRef} className="logo-wrap">
-          <img ref={logoRef} className="logo" src={logoImg} alt="logo" />
-        </div>
-        <div ref={titleWrapRef} className="title-wrap">
-          <h1 ref={titleRef} className="title">БЧ. Мой поезд</h1>
-        </div>
+      </div>
+      <div ref={brandRef} className="brand">
+        <img ref={logoRef} className="brand-logo" src={logoImg} alt="logo" />
+        <h1 ref={titleRef} className="brand-title">БЧ. Мой поезд</h1>
       </div>
       <div ref={sectionWrapperRef} className="section-yellow-wrapper">
         <section className="section-yellow">

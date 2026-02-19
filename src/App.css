@@ -26,6 +26,19 @@
   font-stretch: condensed;
 }
 
+.nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.nav-brand-logo {
+  height: 24px;
+  width: auto;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  will-change: transform, opacity, filter;
+}
+
 .scroll-spacer {
   height: 540vh;
 }
@@ -63,44 +76,35 @@
   transform: scaleX(-1);
 }
 
-.logo-wrap {
-  position: absolute;
-  top: 35%;
+.brand {
+  position: fixed;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 20;
+  z-index: 250;
   pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.logo {
+.brand-logo {
   display: block;
-  max-height: 80px;
+  height: 80px;
   width: auto;
   border-radius: 16px;
-  opacity: 0;
-  filter: blur(20px);
-  will-change: filter, opacity, transform;
+  overflow: hidden;
+  will-change: transform, opacity, height;
 }
 
-.title-wrap {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 20;
-  pointer-events: none;
-}
-
-.title {
+.brand-title {
   color: #fff;
   font-size: clamp(2rem, 6vw, 5rem);
   font-weight: 700;
   letter-spacing: 0.05em;
-  text-align: center;
   white-space: nowrap;
-  opacity: 0;
-  filter: blur(20px);
-  will-change: filter, opacity, transform;
+  will-change: transform, opacity, font-size;
 }
 
 .section-yellow-wrapper {
