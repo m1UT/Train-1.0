@@ -55,27 +55,32 @@ function App() {
     gsap.ticker.add(lenisRaf)
     gsap.ticker.lagSmoothing(0)
 
-    const fogIn = (el) => gsap.fromTo(
-      el,
-      { opacity: 0, filter: 'blur(20px)', x: -40, y: -25 },
-      {
-        opacity: 1,
-        filter: 'blur(0px)',
-        x: 0,
-        y: 0,
-        ease: 'power1.inOut',
+    const fogInOut = (el) => {
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: '.scroll-spacer',
           start: '35% top',
-          end: '70% top',
+          end: '95% top',
           scrub: 0.5,
-          onLeave: () => gsap.set(el, { opacity: 1, filter: 'blur(0px)', x: 0, y: 0 }),
         },
-      }
-    )
+      })
 
-    fogIn(titleRef.current)
-    fogIn(logoRef.current)
+      tl.fromTo(
+        el,
+        { opacity: 0, filter: 'blur(20px)', x: -40, y: -25 },
+        { opacity: 1, filter: 'blur(0px)', x: 0, y: 0, duration: 0.5, ease: 'power1.inOut' }
+      )
+
+      tl.to(
+        el,
+        { opacity: 0, filter: 'blur(24px)', duration: 0.8, ease: 'power2.in' }
+      )
+
+      return tl
+    }
+
+    fogInOut(titleRef.current)
+    fogInOut(logoRef.current)
 
     const transitionTrigger = {
       trigger: sectionWrapperRef.current,
@@ -83,24 +88,6 @@ function App() {
       end: 'top top',
       scrub: 0.5,
     }
-
-    const fogOut = (el) => gsap.to(
-      el,
-      {
-        opacity: 0,
-        filter: 'blur(20px)',
-        ease: 'power1.inOut',
-        scrollTrigger: {
-          trigger: '.scroll-spacer',
-          start: '70% top',
-          end: '90% top',
-          scrub: 0.5,
-        },
-      }
-    )
-
-    fogOut(titleRef.current)
-    fogOut(logoRef.current)
 
     gsap.to(landscapeRef.current, {
       filter: 'blur(20px)', ease: 'power1.inOut', scrollTrigger: transitionTrigger,
