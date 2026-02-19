@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import trainImg from './assets/train.png'
 import landscapeImg from './assets/landscape.jpg'
 import logoImg from './assets/logo.png'
+import cloudsImg from './assets/clouds.webp'
 import './App.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -20,6 +21,8 @@ function App() {
   const textLeftRef = useRef(null)
   const textRightRef = useRef(null)
   const navRef = useRef(null)
+  const cloudsTrackRef = useRef(null)
+  const cloudsLayerRef = useRef(null)
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -41,6 +44,12 @@ function App() {
 
       if (logoWrapRef.current)
         logoWrapRef.current.style.transform = `translate(-50%, calc(-50% + ${translateY}px))`
+
+      if (cloudsLayerRef.current)
+        cloudsLayerRef.current.style.transform = `translateY(${translateY}px)`
+
+      if (cloudsTrackRef.current)
+        cloudsTrackRef.current.style.transform = `translateX(${-scroll * 0.3}px)`
 
       if (trainRef.current) {
         const t = Math.min(scroll / Math.max(sectionStart, 1), 1)
@@ -156,6 +165,14 @@ function App() {
             <div className="landscape-tile landscape-tile--mirror" />
             <div className="landscape-tile" />
             <div className="landscape-tile landscape-tile--mirror" />
+          </div>
+        </div>
+        <div ref={cloudsLayerRef} className="clouds-layer">
+          <div className="clouds-drift">
+            <div ref={cloudsTrackRef} className="clouds-track">
+              <img className="clouds-img" src={cloudsImg} alt="" />
+              <img className="clouds-img" src={cloudsImg} alt="" />
+            </div>
           </div>
         </div>
         <img ref={trainRef} className="train" src={trainImg} alt="train" />
