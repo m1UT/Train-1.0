@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -6,11 +6,14 @@ import trainImg from './assets/train.png'
 import landscapeImg from './assets/landscape.jpg'
 import logoImg from './assets/logo.png'
 import cloudsImg from './assets/clouds.webp'
+import loadScreenImg from './assets/load-screen.png'
 import './App.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
 function App() {
+  const [loaderVisible, setLoaderVisible] = useState(true)
+  const loaderRef = useRef(null)
   const landscapeRef = useRef(null)
   const trainRef = useRef(null)
   const titleRef = useRef(null)
@@ -24,6 +27,27 @@ function App() {
   const cloudsLayerRef = useRef(null)
   const navBrandRef = useRef(null)
   const navLogoRef = useRef(null)
+
+  useEffect(() => {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+    window.scrollTo(0, 0)
+  }, [])
+
+  useEffect(() => {
+    if (!loaderRef.current) return
+    document.body.style.overflow = 'hidden'
+    const tl = gsap.timeline({
+      onComplete: () => {
+        document.body.style.overflow = ''
+        setLoaderVisible(false)
+      },
+    })
+    tl.to(loaderRef.current, { scale: 20, duration: 3.8, ease: 'power2.inOut' }, 0)
+    return () => {
+      tl.kill()
+      document.body.style.overflow = ''
+    }
+  }, [])
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -162,6 +186,13 @@ function App() {
 
   return (
     <>
+      {loaderVisible && (
+        <div className="loader" aria-hidden="true">
+          <div ref={loaderRef} className="loader-inner">
+            <img className="loader-img" src={loadScreenImg} alt="" />
+          </div>
+        </div>
+      )}
       <nav ref={navRef} className="nav">
         <div className="nav-group">
           <a href="#">Главная</a>
