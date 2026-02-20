@@ -48,8 +48,8 @@ function App() {
 
       if (trainRef.current) {
         const t = Math.min(scroll / Math.max(sectionStart, 1), 1)
-        const eased = t * t * (3 - 2 * t)
-        trainRef.current.style.transform = `scale(${1 + eased * 2})`
+        const eased = 1 - Math.pow(1 - t, 4)
+        trainRef.current.style.transform = `scale(${1 + eased * 3})`
       }
     })
 
