@@ -178,12 +178,8 @@ function App() {
       <div className="scroll-spacer" />
       <div className="scene">
         <div ref={landscapeRef} className="landscape">
-          <div className="landscape-sway" style={{ '--img': `url(${landscapeImg})` }}>
-            <div className="landscape-tile" />
-            <div className="landscape-tile landscape-tile--mirror" />
-            <div className="landscape-tile" />
-            <div className="landscape-tile landscape-tile--mirror" />
-          </div>
+          <img className="landscape-img" src={landscapeImg} alt="" />
+          <img className="landscape-img landscape-img--mirror" src={landscapeImg} alt="" />
         </div>
         <div ref={cloudsLayerRef} className="clouds-layer">
           <div className="clouds-drift">

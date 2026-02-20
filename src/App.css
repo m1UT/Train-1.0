@@ -58,21 +58,15 @@
   will-change: transform;
 }
 
-.landscape-sway {
-  display: flex;
-  height: 100%;
-}
-
-.landscape-tile {
+.landscape-img {
   height: 100%;
   width: 100vw;
   flex-shrink: 0;
-  background-image: var(--img);
-  background-size: cover;
-  background-repeat: no-repeat;
+  object-fit: cover;
+  object-position: left center;
 }
 
-.landscape-tile--mirror {
+.landscape-img--mirror {
   transform: scaleX(-1);
 }
 
